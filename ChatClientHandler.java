@@ -32,6 +32,9 @@ public class ChatClientHandler extends Thread{
 		if(commands[0].equals("help")) {//ヘルプなら
 		    help(commands);//ヘルプコマンド
 		}	
+		else if(commands[0].equals("name")){
+		    name(commands,map);
+		}
 		else send("please input command. If you do not understand, please run help command.");
 	    }
         } catch(IOException e){
@@ -50,9 +53,37 @@ public class ChatClientHandler extends Thread{
 	    if(commands[1].equals("help")){
 		send("help [コマンド名]");
 	    }
-	    
+	     else if(commands[1].equals("name")){
+		send("name [ユーザ名]");
+	    }
 	}
     } 
+    
+    /*ネームメソッド*/
+    private void name(String[] commands,Map map) throws IOException{ 
+	int Branch = 0;
+	if(commands.length == 1){
+	    send("name [ユーザ名]");
+	}	
+	else if(commands.length == 2){
+	    for(Iterator i = map.entrySet().iterator(); i.hasNext(); ){ 
+		Map.Entry entry = (Map.Entry)i.next();
+		String value = entry.getValue().toString();
+		if(commands[1].equals(value))
+		    Branch=1;
+	    }
+	    if(Branch==0){		    
+		map.remove(num);
+		this.name = commands[1];	   
+		map.put(this.num,name);
+		send("名前を変更しました： " + commands[1]);
+	    }
+	    else if(Branch==1){send("この名前は既に使用されています");}
+	}
+	else if(commands.length >=3){
+	    send("名前に'スペース'を用いることは出来ません");
+	}
+    }
     
    /** クライアントとのデータのやり取りを行うストリームを開くメソッド．**/
   void open() throws IOException{
