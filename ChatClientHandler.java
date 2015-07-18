@@ -44,5 +44,9 @@ public class ChatClientHandler extends Thread{
      try{ socket.close(); } catch(IOException e){ }
    }
  }
+ void reset(List list){
+     userlist.clear();
+     userlist.addAll(list);
+ }
 }
 
