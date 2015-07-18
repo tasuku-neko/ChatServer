@@ -38,6 +38,9 @@ public class ChatClientHandler extends Thread{
 		else if(commands[0].equals("whoami")){
 		    whoami(commands);
 		}
+		else if(commands[0].equals("users")){
+		    users(commands,map);
+		}
 		else send("please input command. If you do not understand, please run help command.");
 	    }
         } catch(IOException e){
@@ -61,6 +64,9 @@ public class ChatClientHandler extends Thread{
 	    }
 	     else if(commands[1].equals("whoami")){
 		send("whoami");
+	    }
+		 else if(commands[1].equals("users")){
+		send("users");
 	    }
 	}
     } 
@@ -94,6 +100,19 @@ public class ChatClientHandler extends Thread{
     /*設定されているユーザ名を返す*/
     private void whoami(String[] commands) throws IOException{ 
 	send(name);
+    }
+
+    /*ホストに接続している全てのユーザ名を表示*/
+    private void users(String[] commands, Map map) throws IOException{ 
+	for(Iterator i = map.entrySet().iterator(); i.hasNext(); ){ 
+	    Map.Entry entry = (Map.Entry)i.next();
+	    //String key = entry.getKey().toString();
+	    String value = entry.getValue().toString();
+	    out.write(value);
+	    out.write(",");
+	}
+	out.write("\r\n");
+	out.flush();//かえってきたメッセージの出力
     }
     
    /** クライアントとのデータのやり取りを行うストリームを開くメソッド．**/
@@ -138,4 +157,3 @@ public class ChatClientHandler extends Thread{
      userlist.addAll(list);
  }
 }
-
