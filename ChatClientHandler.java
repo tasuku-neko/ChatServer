@@ -23,6 +23,11 @@ public class ChatClientHandler extends Thread{
     OutputStream socketOut = socket.getOutputStream();
     in = new BufferedReader(new InputStreamReader(socketIn)); 
     out = new BufferedWriter(new OutputStreamWriter(socketOut));
-  }             
+  }
+  void send(String message) throws IOException{
+        out.write(message);
+        out.write("\r\n");
+	out.flush();
+  }
 }
 
