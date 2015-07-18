@@ -44,6 +44,9 @@ public class ChatClientHandler extends Thread{
 		else if(commands[0].equals("users")){
 		    users(commands,map);
 		}
+		else if(commands[1].equals("post")){
+		send("post [メッセージ]");
+	    	}
 		else send("please input command. If you do not understand, please run help command.");
 	    }
         } catch(IOException e){
@@ -56,7 +59,7 @@ public class ChatClientHandler extends Thread{
     /*ヘルプメソッド*/
     private void help(String[] commands) throws IOException{
 	if(commands.length == 1){
-	    send("help name whoami users bye");
+	    send("help name whoami users bye post");
 	}
 	else if(commands.length == 2){
 	    if(commands[1].equals("help")){
@@ -73,6 +76,9 @@ public class ChatClientHandler extends Thread{
 	     }
 	     else if(commands[1].equals("users")){
 		send("users");
+	    }
+	    else if(commands[1].equals("post")){
+		send("post [メッセージ]");
 	    }
 	}
     } 
@@ -125,6 +131,34 @@ public class ChatClientHandler extends Thread{
 	}
 	out.write("\r\n");
 	out.flush();//かえってきたメッセージの出力
+    }
+    //各クライアントにメッセージを送信するメソッド
+    private void post(String[] commands) throws IOException{
+	List receivelist = new ArrayList();//送った相手
+	if(commands.length == 1){
+	    send("post [メッセージ]");
+	}
+	else if(commands.length == 2){
+	    for(Iterator i = map.entrySet().iterator();i.hasNext();){
+		Map.Entry entry = (Map.Entry)i.next();
+		String username = entry.getValue().toString();//送った相手
+		int usernumber = new Integer(entry.getKey().toString()).intValue();//相手の番号
+		
+		if(username != name){//自分以外のクライアントに送る
+		    ChatClientHandler user = (ChatClientHandler)userlist.get(usernumber);
+		    receivelist.add(username);
+		    user.send("[" + name + "]" + commands[1]);
+		}
+	    }
+　　　　　　　if(receivelist.isEmpty())
+		send("no one receive message");
+	    else 
+		for(int a = 0; a < receivelist.size(); a++){
+		    out.write(receivelist.get(a).toString() + " , ");
+		}
+	    out.write("\r\n");
+	    out.flush();//かえってきたメッセージの出力		
+	  }
     }
     
    /** クライアントとのデータのやり取りを行うストリームを開くメソッド．**/
