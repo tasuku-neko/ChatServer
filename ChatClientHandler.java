@@ -35,6 +35,9 @@ public class ChatClientHandler extends Thread{
 		else if(commands[0].equals("name")){
 		    name(commands,map);
 		}
+		else if(commands[0].equals("whoami")){
+		    whoami(commands);
+		}
 		else send("please input command. If you do not understand, please run help command.");
 	    }
         } catch(IOException e){
@@ -47,7 +50,7 @@ public class ChatClientHandler extends Thread{
     /*ヘルプメソッド*/
     private void help(String[] commands) throws IOException{
 	if(commands.length == 1){
-	    send("help name whoami bye users post");
+	    send("help name whoami");
 	}
 	else if(commands.length == 2){
 	    if(commands[1].equals("help")){
@@ -55,6 +58,9 @@ public class ChatClientHandler extends Thread{
 	    }
 	     else if(commands[1].equals("name")){
 		send("name [ユーザ名]");
+	    }
+	     else if(commands[1].equals("whoami")){
+		send("whoami");
 	    }
 	}
     } 
@@ -83,6 +89,11 @@ public class ChatClientHandler extends Thread{
 	else if(commands.length >=3){
 	    send("名前に'スペース'を用いることは出来ません");
 	}
+    }
+    
+    /*設定されているユーザ名を返す*/
+    private void whoami(String[] commands) throws IOException{ 
+	send(name);
     }
     
    /** クライアントとのデータのやり取りを行うストリームを開くメソッド．**/
