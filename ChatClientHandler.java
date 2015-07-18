@@ -22,7 +22,37 @@ public class ChatClientHandler extends Thread{
 	map.put(this.num,name);
 	
   }
+ public void run(){	
+        try{
+            open();
+	    while(true) {
+		String message = receive();
+		String[] commands = message.split(" ");//メッセージ分割
+		if(commands[0].equals("help")) {//ヘルプなら
+		    help(commands);//ヘルプコマンド
+		}	
+		else send("please input command. If you do not understand, please run help command.");
+	    }
+        } catch(IOException e){
+            e.printStackTrace();
+        } finally{
+            close();
+        }
+    }
 
+    /*ヘルプメソッド*/
+    private void help(String[] commands) throws IOException{
+	if(commands.length == 1){
+	    send("help name whoami bye users post");
+	}
+	else if(commands.length == 2){
+	    if(commands[1].equals("help")){
+		send("help [コマンド名]");
+	    }
+	    
+	}
+    } 
+    
   void open() throws IOException{
 	  InetAddress address = socket.getInetAddress();
 	  System.out.println(address);
@@ -32,6 +62,7 @@ public class ChatClientHandler extends Thread{
     in = new BufferedReader(new InputStreamReader(socketIn)); 
     out = new BufferedWriter(new OutputStreamWriter(socketOut));
   }
+  
   String receive() throws IOException{
         String line = in.readLine();
         return line;
