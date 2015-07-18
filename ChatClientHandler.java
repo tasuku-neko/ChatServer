@@ -53,7 +53,7 @@ public class ChatClientHandler extends Thread{
     /*ヘルプメソッド*/
     private void help(String[] commands) throws IOException{
 	if(commands.length == 1){
-	    send("help name whoami");
+	    send("help name whoami users");
 	}
 	else if(commands.length == 2){
 	    if(commands[1].equals("help")){
