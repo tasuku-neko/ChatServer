@@ -38,6 +38,9 @@ public class ChatClientHandler extends Thread{
 		else if(commands[0].equals("whoami")){
 		    whoami(commands);
 		}
+		else if(commands[0].equals("bye")){
+		    bye(commands,map);
+		}
 		else if(commands[0].equals("users")){
 		    users(commands,map);
 		}
@@ -53,7 +56,7 @@ public class ChatClientHandler extends Thread{
     /*ヘルプメソッド*/
     private void help(String[] commands) throws IOException{
 	if(commands.length == 1){
-	    send("help name whoami users");
+	    send("help name whoami users bye");
 	}
 	else if(commands.length == 2){
 	    if(commands[1].equals("help")){
@@ -65,7 +68,10 @@ public class ChatClientHandler extends Thread{
 	     else if(commands[1].equals("whoami")){
 		send("whoami");
 	    }
-		 else if(commands[1].equals("users")){
+	     else if(commands[0].equals("bye")){
+		 bye(commands,map);
+	     }
+	     else if(commands[1].equals("users")){
 		send("users");
 	    }
 	}
@@ -100,6 +106,12 @@ public class ChatClientHandler extends Thread{
     /*設定されているユーザ名を返す*/
     private void whoami(String[] commands) throws IOException{ 
 	send(name);
+    }
+    
+     /*ホストとの接続を切る*/
+    private void bye(String[] commands, Map map) throws IOException{
+	map.remove(name);
+	close();
     }
 
     /*ホストに接続している全てのユーザ名を表示*/
