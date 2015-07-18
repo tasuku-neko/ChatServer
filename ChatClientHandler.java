@@ -28,5 +28,10 @@ public class ChatClientHandler extends Thread{
         String line = in.readLine();
         return line;
   }
+  void send(String message) throws IOException{
+	out.write(message);
+	out.write("\r\n");
+	out.flush();
+  }
 }
 
