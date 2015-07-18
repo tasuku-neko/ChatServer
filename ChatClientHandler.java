@@ -33,5 +33,16 @@ public class ChatClientHandler extends Thread{
 	out.write("\r\n");
 	out.flush();
   }
+  void close(){
+  if(in != null){
+   try{ in.close(); } catch(IOException e){ }
+   }
+   if(out != null){
+       try{ out.close(); } catch(IOException e){ }
+   }
+   if(socket != null){
+     try{ socket.close(); } catch(IOException e){ }
+   }
+ }
 }
 
