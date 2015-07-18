@@ -149,8 +149,8 @@ public class ChatClientHandler extends Thread{
 		    receivelist.add(username);
 		    user.send("[" + name + "]" + commands[1]);
 		}
-	    }
-　　　　　　　if(receivelist.isEmpty())
+	  }
+	  if(receivelist.isEmpty())
 		send("no one receive message");
 	    else 
 		for(int a = 0; a < receivelist.size(); a++){
