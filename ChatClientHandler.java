@@ -22,6 +22,7 @@ public class ChatClientHandler extends Thread{
 	map.put(this.num,name);
 	
   }
+  
  public void run(){	
         try{
             open();
@@ -53,6 +54,7 @@ public class ChatClientHandler extends Thread{
 	}
     } 
     
+   /** クライアントとのデータのやり取りを行うストリームを開くメソッド．**/
   void open() throws IOException{
 	  InetAddress address = socket.getInetAddress();
 	  System.out.println(address);
@@ -63,15 +65,20 @@ public class ChatClientHandler extends Thread{
     out = new BufferedWriter(new OutputStreamWriter(socketOut));
   }
   
+   /**クライアントからデータを受け取るメソッド．**/
   String receive() throws IOException{
         String line = in.readLine();
         return line;
   }
+  
+   /**クライアントへデータを送るメソッド．**/
   void send(String message) throws IOException{
 	out.write(message);
 	out.write("\r\n");
 	out.flush();
   }
+  
+   /**クライアントとの接続を閉じるメソッド．**/
   void close(){
   if(in != null){
    try{ in.close(); } catch(IOException e){ }
@@ -83,6 +90,7 @@ public class ChatClientHandler extends Thread{
      try{ socket.close(); } catch(IOException e){ }
    }
  }
+ 
  void reset(List list){
      userlist.clear();
      userlist.addAll(list);
